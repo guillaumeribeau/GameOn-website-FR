@@ -61,9 +61,10 @@
               action="index.html"
               method="get"
               onsubmit="return validate();"
+              id="inscription_valid"
             >
               <div
-                class="formData">
+                class="formData" >
                 <label for="first">Prénom</label><br>
                 <input
                   class="text-control"
@@ -74,7 +75,9 @@
                   required="required"
                   
                 /><br>
+                
               </div>
+
               <div
                 class="formData">
                 <label for="last">Nom</label><br>
@@ -219,6 +222,7 @@
                 type="submit"
                 class="button"
                 value="C'est parti"
+                id="submit_valid"
               />
             </form>
           </div>
