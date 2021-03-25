@@ -13,8 +13,8 @@ const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeBtn= document.getElementById("close-modal");
 const btnSubmit= document.getElementById("submit");
-
 const form = document.getElementById("form");
+
 //selection de tous les inputs
 
 const inputFirst = document.querySelector('input[name=first]');
@@ -49,8 +49,6 @@ function closeModal(){
 }
 
 
-
-
 function displayNone(e) {
   // passer les id 
   e.style.display = "none";
@@ -58,25 +56,42 @@ function displayNone(e) {
 
 
 
+/* mets une bordure rouge sur chaque items */
+const textC = document.querySelectorAll('text-contol');
+
+textC.forEach(items=> {
+items.style.border= '2px solid #FF4E60'});
+
+
+
+/* fonctions passes les bordure en vert si ok */
+
+
+
+
+/* ecoute la touche relaché et affiche message en consequence */
+
 inputFirst.addEventListener('keyup', function(e) {
   // écouter touche relaché
     let regFirst = /[a-zA-Z]{2,64}/;
     let value = e.target.value;
     if (value.match(regFirst)){
       // correspondance  
+      textControl.style.border="2px solid green"
       displayNone(resultFirst);
     } else {
+   
       resultFirst.style.display = "inline-block";
       resultFirst.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
     }
 });
-
 
 inputLast.addEventListener('keyup', function(e) {
     let regLast = /[a-zA-Z]{2,64}/;
     let value = e.target.value;
     if (value.match(regLast)) {
       displayNone(resultLast);
+      textControl.style.border="2px solid green"
     } else {
       resultLast.style.display = "inline-block";
       resultLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
@@ -88,6 +103,7 @@ inputEmail.addEventListener('keyup', function(e) {
     let value = e.target.value;
     if (value.match(regEmail)) {
       displayNone(resultEmail);
+      borderGreen();
     } else {
       resultEmail.style.display = "inline-block";
       resultEmail.innerHTML = "Vous devez choisir une adresse électronique est valide.";
@@ -99,6 +115,7 @@ inputDate.addEventListener('change', function(e) {
   if (inputDate.value.length > 0) {
     // sup à 0 pas d'alerte
       displayNone(resultBirth);
+      borderGreen();
      } else {
       resultBirth.style.display = "inline-block";
       resultBirth.innerHTML = "Vous devez entrer votre date de naissance.";
@@ -109,6 +126,7 @@ inputDate.addEventListener('change', function(e) {
    // écouter changement d'état
   if (inputQuant.value.length > 0) {
     displayNone(resultQuant);
+    borderGreen();
      } else {
       resultQuant.style.display = "inline-block";
       resultQuant.innerHTML = "Merci de compléter ce champ";

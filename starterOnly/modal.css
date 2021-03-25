@@ -207,6 +207,7 @@ input {
   border-radius: 8px;
   font-size: 20px;
   height: 48px;
+  border: 2px solid #e54858;
 }
 .formData[data-error]::after {
   content: attr(data-error);
