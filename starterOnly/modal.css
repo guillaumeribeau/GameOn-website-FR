@@ -226,6 +226,39 @@ input {
 .formData[data-error-visible="true"] .text-control {
   border: 2px solid #e54858;
 }
+
+.result {
+  font-family: var(--font-default);
+  font-size: 12px;
+  font-weight: normal;
+  display: none;
+  /*display: inline-block;*/
+  margin-bottom: 4px;
+  color: #fe142f;
+}
+#note {
+  position: absolute;
+  z-index: 101;
+  top: 50%;
+  left: 25%;
+  right: 25%;
+  padding: 100px;
+  background: #fe142f;
+  color: #fff;
+  border-radius: 7px;
+  text-align: center;
+  line-height: 2.5;
+  overflow: hidden; 
+  -webkit-box-shadow: 0 0 5px black;
+  -moz-box-shadow:    0 0 5px black;
+  box-shadow:         0 0 5px black;
+  display: none;
+  
+}
+
+
+
+
 /* 
 input[data-error]::after {
     content: attr(data-error);
