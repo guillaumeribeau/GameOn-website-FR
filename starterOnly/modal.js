@@ -11,7 +11,7 @@ function editNav() {
 const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
-const closeBtn= document.querySelector(".close");
+const closeBtn= document.getElementById("close-modal");
 const btnSubmit= document.getElementById("submit");
 
 const form = document.getElementById("form");
@@ -226,4 +226,19 @@ form.addEventListener("submit", e => {
 });
 
  
+
+// fermer la notification de reservation bien recue
+
+const croixNotification = document.getElementById("croix-notification");
+const btnNotification = document.getElementById('btn-notification');
+const notificationClose = document.getElementById('note')
+
+btnNotification.addEventListener('click', function(){
+  notificationClose.style.display='none';
+  
+});
+
+croixNotification.addEventListener('click',function(){
+  notificationClose.style.display='none';
+})
 
