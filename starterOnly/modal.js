@@ -48,65 +48,69 @@ function closeModal(){
   modalbg.style.display='none';
 }
 
-
 function displayNone(e) {
   // passer les id 
   e.style.display = "none";
 }
 
 
+// function afficher message d'erreur
+function afficherMessage(inputdiv){
+  inputdiv.style.display='inline-block';
+}
 
-/* mets une bordure rouge sur chaque items */
-const textC = document.querySelectorAll('text-contol');
 
+
+
+/* mets une bordure rouge sur chaque champs */
+const textC = document.querySelectorAll('.text-control');
 textC.forEach(items=> {
 items.style.border= '2px solid #FF4E60'});
 
+// passe la bordure en vert si le champs est bien rempli
+function borderGreen (indexDuChamp){
+  indexDuChamp.style.border='2px solid green';
+}
 
-
-/* fonctions passes les bordure en vert si ok */
-
-
-
+//regex
+let regFirst = /[a-zA-Z]{2,64}/;
+let regLast = /[a-zA-Z]{2,64}/;
+let regEmail = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
 
 /* ecoute la touche relaché et affiche message en consequence */
 
 inputFirst.addEventListener('keyup', function(e) {
   // écouter touche relaché
-    let regFirst = /[a-zA-Z]{2,64}/;
     let value = e.target.value;
     if (value.match(regFirst)){
       // correspondance  
-      textControl.style.border="2px solid green"
+      borderGreen(textC[0]);
       displayNone(resultFirst);
     } else {
-   
-      resultFirst.style.display = "inline-block";
+      afficherMessage(resultFirst);
       resultFirst.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
     }
 });
 
 inputLast.addEventListener('keyup', function(e) {
-    let regLast = /[a-zA-Z]{2,64}/;
-    let value = e.target.value;
+     let value = e.target.value;
     if (value.match(regLast)) {
       displayNone(resultLast);
-      textControl.style.border="2px solid green"
+      borderGreen(textC[1]);
     } else {
-      resultLast.style.display = "inline-block";
+      afficherMessage(resultLast);
       resultLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
     }
 });
  
 inputEmail.addEventListener('keyup', function(e) {
-    let regEmail = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
-    let value = e.target.value;
+   let value = e.target.value;
     if (value.match(regEmail)) {
       displayNone(resultEmail);
-      borderGreen();
+      borderGreen(textC[2]);
     } else {
-      resultEmail.style.display = "inline-block";
-      resultEmail.innerHTML = "Vous devez choisir une adresse électronique est valide.";
+      afficherMessage(resultEmail);
+      resultEmail.innerHTML = "Vous devez choisir une adresse électronique valide.";
     }
 });
 
@@ -115,9 +119,9 @@ inputDate.addEventListener('change', function(e) {
   if (inputDate.value.length > 0) {
     // sup à 0 pas d'alerte
       displayNone(resultBirth);
-      borderGreen();
+      borderGreen(textC[3]);
      } else {
-      resultBirth.style.display = "inline-block";
+      afficherMessage(resultBirth);
       resultBirth.innerHTML = "Vous devez entrer votre date de naissance.";
      }
  });
@@ -126,10 +130,10 @@ inputDate.addEventListener('change', function(e) {
    // écouter changement d'état
   if (inputQuant.value.length > 0) {
     displayNone(resultQuant);
-    borderGreen();
+    borderGreen(textC[4]);
      } else {
-      resultQuant.style.display = "inline-block";
-      resultQuant.innerHTML = "Merci de compléter ce champ";
+      afficherMessage(resultQuant);
+      resultQuant.innerHTML = "Merci renseigner le nombre de tournoi";
      }
  });
 
@@ -138,30 +142,6 @@ inputDate.addEventListener('change', function(e) {
     displayNone(resultConditions);
   }
 });
-
-function countLocations(){
-  let theLocation = document.getElementsByClassName("location"),
-      i,
-      count = 0;
-  for (i = 0; i < theLocation.length; i++){
-    // vérifier chacune des villes
-      if (theLocation[i].checked){
-          count++;
-      } 
-  }
-  return count;
-  // fin de l'exécution, valeur à renvoyer à la fonction appelante
-};
-
-document.querySelectorAll('.location').forEach(item => {
-  // tableau location -> écoute item -> état de e 
-  item.addEventListener('change', e => {
-    if(e.target.checked){
-      displayNone(resultLocation);
-    }
-  })
-});
-
 
 
 
@@ -175,55 +155,52 @@ document.getElementById("note").style.display = "block";
 
 }
 
+
 // function pour verifier si le champ est vide et afficher message d'erreur 
 
 function validation(){
 
   let inputCount = 0;
 // initialisation du compteur
-if(inputFirst.value.length == 0){
-resultFirst.style.display='inline-block'
-inputFirst.style.backgroundColor='red';
-resultFirst.innerHTML='veuillez remplir le champ prénom';
+if(inputFirst.value.length == 0 || regFirst.test(inputFirst.value)==false){
+afficherMessage(resultFirst);
+resultFirst.innerHTML='Le champs prénom doit contenir au moins deux caractères';
 inputCount++;
 }
 
-if (inputLast.value.length == 0) {
-  resultLast.style.display = "inline-block";
-  inputLast.style.backgroundColor='red';
-  resultLast.innerHTML='veuillez remplir le champ nom';
+if (inputLast.value.length == 0 || regLast.test(inputLast.value)==false){
+  afficherMessage(resultLast);
+  resultLast.innerHTML='Le champs nom doit contenir au moins deux caractères';
+  ;
   inputCount++;
   
 }
-if (inputEmail.value.length==0){
-  resultEmail.style.display='inline-block';
-  inputEmail.style.border='2px red solid';
+if (inputEmail.value.length==0 || regEmail.test(inputEmail.value)==false){
+  afficherMessage(resultEmail);
   resultEmail.innerHTML='Merci de saisir un email valide';
   inputCount++;
 }
 
 if (inputDate.value.length==0) {
-  resultDate.style.display='inline-block';
-  inputDate.style.backgroundColor='red';
+    afficherMessage(resultDate);
   resultDate.innerHTML='Veuillez saisir votre date de naissance';
   inputCount++;
 
   if (inputQuant.value.length == 0) {
-    resultQuant.style.display = "inline-block";
+    afficherMessage(resultQuant);
     resultQuant.innerHTML = "Vous devez renseigner le nombre de tournoi";
     inputCount++;
     } 
   
 }
 if (inputConditions.checked==false){
-  resultConditions.style.display='inline-block';
-  inputConditions.style.backgroundColor='red';
+  afficherMessage(resultConditions);
   resultConditions.innerHTML='Vous devez accepter les conditions générales';
   inputCount++;
   
-  if (countLocations() == 0) {
+  if (inputLocation.checked== false) {
     // fonction appelante count 
-    resultLocation.style.display = "inline-block";
+    afficherMessage(resultLocation);
     resultLocation.innerHTML = "Vous devez choisir une option.";
     inputCount++;
   } 
@@ -237,6 +214,10 @@ else if (inputCount==0) {
 
 }
 
+
+
+
+
 // bouton 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -244,6 +225,10 @@ form.addEventListener("submit", e => {
 });
 
  
+
+
+
+
 
 // fermer la notification de reservation bien recue
 
