@@ -215,9 +215,6 @@ else if (inputCount==0) {
 }
 
 
-
-
-
 // bouton 
 form.addEventListener("submit", e => {
   e.preventDefault();
@@ -225,10 +222,6 @@ form.addEventListener("submit", e => {
 });
 
  
-
-
-
-
 
 // fermer la notification de reservation bien recue
 

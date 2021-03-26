@@ -573,7 +573,7 @@ height: 1400px;
   color: #fe142f;
 }
 #note {
-display:block;
+display:none;
 position: absolute;
 top:80px;
 left:0;
