@@ -60,8 +60,6 @@ function afficherMessage(inputdiv){
 }
 
 
-
-
 /* mets une bordure rouge sur chaque champs */
 const textC = document.querySelectorAll('.text-control');
 textC.forEach(items=> {
@@ -73,16 +71,16 @@ function borderGreen (indexDuChamp){
 }
 
 //regex
-let regFirst = /[a-zA-Z]{2,64}/;
-let regLast = /[a-zA-Z]{2,64}/;
+let regPrenomNom = /[a-zA-Z]{2,64}/;
 let regEmail = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
 
 /* ecoute la touche relaché et affiche message en consequence */
 
+
 inputFirst.addEventListener('keyup', function(e) {
   // écouter touche relaché
     let value = e.target.value;
-    if (value.match(regFirst)){
+    if (value.match(regPrenomNom)){
       // correspondance  
       borderGreen(textC[0]);
       displayNone(resultFirst);
@@ -94,7 +92,7 @@ inputFirst.addEventListener('keyup', function(e) {
 
 inputLast.addEventListener('keyup', function(e) {
      let value = e.target.value;
-    if (value.match(regLast)) {
+    if (value.match(regPrenomNom)) {
       displayNone(resultLast);
       borderGreen(textC[1]);
     } else {
@@ -155,73 +153,122 @@ document.getElementById("note").style.display = "block";
 
 }
 
+let count=0;
 
-// function pour verifier si le champ est vide et afficher message d'erreur 
+//funontion vider message d'erreur de saisie et remplacer par autre message
+function caseVide (input){
+  input.style.display='block'
+  input.innerHTML= 'Merci de completer ce champ'
+};
 
-function validation(){
-
-  let inputCount = 0;
-// initialisation du compteur
-if(inputFirst.value.length == 0 || regFirst.test(inputFirst.value)==false){
-afficherMessage(resultFirst);
-resultFirst.innerHTML='Le champs prénom doit contenir au moins deux caractères';
-inputCount++;
+function caseErrorPrenomNom(messageDiv){
+  messageDiv.style.display='block';
+  messageDiv.innerHTML='Vous devez renseigner au moins deux caractères'
 }
 
-if (inputLast.value.length == 0 || regLast.test(inputLast.value)==false){
-  afficherMessage(resultLast);
-  resultLast.innerHTML='Le champs nom doit contenir au moins deux caractères';
-  ;
-  inputCount++;
+// function nom et prenom et Mail:
+function nomPrenomMail(input,divError,regex){
+
+if(input.value.length == 0){
+  afficherMessage(divError);
+  caseVide(divError);
+  count++;
+  
+  
+  
+  }
+
+else if (regex.test(input.value)==false){
+   caseErrorPrenomNom(divError);
+   count++
+   
+   }
+else {
+  
+  count=0;
   
 }
-if (inputEmail.value.length==0 || regEmail.test(inputEmail.value)==false){
-  afficherMessage(resultEmail);
-  resultEmail.innerHTML='Merci de saisir un email valide';
-  inputCount++;
-}
+
+};
+
+// date
+
+function date() {
 
 if (inputDate.value.length==0) {
-    afficherMessage(resultDate);
-  resultDate.innerHTML='Veuillez saisir votre date de naissance';
-  inputCount++;
-
-  if (inputQuant.value.length == 0) {
-    afficherMessage(resultQuant);
-    resultQuant.innerHTML = "Vous devez renseigner le nombre de tournoi";
-    inputCount++;
-    } 
-  
+  afficherMessage(resultDate);
+resultDate.innerHTML='Veuillez saisir votre date de naissance'
+count++;
 }
-if (inputConditions.checked==false){
+
+
+};
+
+
+
+//tournoi
+function tournoi(){
+if (inputQuant.value.length == 0) {
+  afficherMessage(resultQuant);
+  resultQuant.innerHTML = "Vous devez renseigner le nombre de tournoi";
+  count++
+  } 
+  
+};
+
+
+// ville
+
+function ville (){
+if(inputLocation.checked== false) {
+
+  afficherMessage(resultLocation);
+  resultLocation.innerHTML = "Vous devez choisir une option.";
+  count++
+  }
+  console.log(count)
+};
+
+  //conditions generales
+function boutonCgv () {
+
+
+  if (inputConditions.checked==false){
   afficherMessage(resultConditions);
   resultConditions.innerHTML='Vous devez accepter les conditions générales';
-  inputCount++;
-  
-  if (inputLocation.checked== false) {
-    // fonction appelante count 
-    afficherMessage(resultLocation);
-    resultLocation.innerHTML = "Vous devez choisir une option.";
-    inputCount++;
-  } 
-}
-else if (inputCount==0) {
-  // fermer, envoyer not, clean champs
-  modalbg.style.display = "none";
-  notification();
-  form.reset();
-} 
+  count++
+  }
+  };
 
+
+
+function validation(){
+nomPrenomMail(inputFirst,resultFirst,regPrenomNom);
+nomPrenomMail(inputLast,resultLast,regPrenomNom);
+nomPrenomMail(inputEmail,resultEmail,regEmail);
+date();
+tournoi();
+//ville();
+boutonCgv();
 }
 
 
-// bouton 
-form.addEventListener("submit", e => {
+
+// ecoute du bouton submit et envoie notification 
+form.addEventListener("submit", e=> {
   e.preventDefault();
   validation();
+  
+
+  if (count==0){
+modalbg.style.display = "none";
+notification();
+form.reset();}
+
+  
 });
 
- 
+
 
 // fermer la notification de reservation bien recue
 
