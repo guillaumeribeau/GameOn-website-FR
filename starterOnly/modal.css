@@ -523,23 +523,6 @@ footer {
 @media screen and (max-width: 800px) {
 /* position du formulaire en mobile*/
 
-.topnav a.active {
-background-color: black;
-color: black;
-border-radius: 15px;
-}
-i {
-color:#232323;
-}
-
-.main-navbar a {
-color:white;
-}
-.main-navbar:hover {
-background-color:#232323;
-
-}
-
 .bground {
 display:none;
 position: absolute;

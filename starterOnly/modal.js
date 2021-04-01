@@ -248,7 +248,7 @@ nomPrenomMail(inputLast,resultLast,regPrenomNom);
 nomPrenomMail(inputEmail,resultEmail,regEmail);
 date();
 tournoi();
-//ville();
+ville();
 boutonCgv();
 }
 
