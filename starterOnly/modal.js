@@ -172,10 +172,7 @@ function nomPrenomMail(input,divError,regex){
 if(input.value.length == 0){
   afficherMessage(divError);
   caseVide(divError);
-  count++;
-  
-  
-  
+  count++; 
   }
 
 else if (regex.test(input.value)==false){
@@ -184,10 +181,8 @@ else if (regex.test(input.value)==false){
    
    }
 else {
-  
   count=0;
-  
-}
+  }
 
 };
 
@@ -200,10 +195,7 @@ if (inputDate.value.length==0) {
 resultDate.innerHTML='Veuillez saisir votre date de naissance'
 count++;
 }
-
-
 };
-
 
 
 //tournoi
@@ -213,21 +205,42 @@ if (inputQuant.value.length == 0) {
   resultQuant.innerHTML = "Vous devez renseigner le nombre de tournoi";
   count++
   } 
-  
 };
 
 
-// ville
-
-function ville (){
-if(inputLocation.checked== false) {
-
-  afficherMessage(resultLocation);
-  resultLocation.innerHTML = "Vous devez choisir une option.";
-  count++
+// la ville 
+function countLocations(){
+  let theLocation = document.getElementsByClassName("location"),
+      i,
+    villeCount = 0;
+  for (i = 0; i < theLocation.length; i++){
+    // vérifier chacune des villes
+      if (theLocation[i].checked){
+          villeCount++;
+      } 
   }
-  console.log(count)
+  return villeCount;
+  // fin de l'exécution, valeur à renvoyer à la fonction appelante
 };
+
+document.querySelectorAll('.location').forEach(item => {
+  // tableau location -> écoute item -> état de e 
+  item.addEventListener('change', e => {
+    if(e.target.checked){
+      displayNone(resultLocation);
+    }
+  })
+});
+
+function ville () {
+  if (countLocations() == 0){
+  // fonction appelante count 
+   afficherMessage(resultLocation);
+  resultLocation.innerHTML = "Vous devez choisir une option.";
+  count++;
+}
+};
+
 
   //conditions generales
 function boutonCgv () {
@@ -241,7 +254,7 @@ function boutonCgv () {
   };
 
 
-
+// fonction pour verifier que tout est ok avant envoie du formulaire
 function validation(){
 nomPrenomMail(inputFirst,resultFirst,regPrenomNom);
 nomPrenomMail(inputLast,resultLast,regPrenomNom);
