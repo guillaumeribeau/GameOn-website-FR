@@ -72,7 +72,7 @@ function borderGreen (indexDuChamp){
 
 //regex
 let regPrenomNom = /[a-zA-Z]{2,64}/;
-let regEmail = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,8})(\.[a-z]{2,8})?$/;
+let regEmail = /^([a-z\d\.-]+)@([a-z\d-]+)\.([a-z]{2,16})(\.[a-z]{2,16})?$/;
 
 /* ecoute la touche relaché et affiche message en consequence */
 
@@ -97,7 +97,7 @@ inputLast.addEventListener('keyup', function(e) {
       borderGreen(textC[1]);
     } else {
       afficherMessage(resultLast);
-      resultLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du nom.";
+      resultLast.innerHTML = "Veuillez entrer 2 caractères ou plus pour le champ du prénom.";
     }
 });
  
@@ -163,28 +163,38 @@ function caseVide (input){
 
 function caseErrorPrenomNom(messageDiv){
   messageDiv.style.display='block';
-  messageDiv.innerHTML='Vous devez renseigner au moins deux caractères'
-}
+  messageDiv.innerHTML='Merci de renseigner au moins deux caractères'
+};
 
-// function nom et prenom et Mail:
-function nomPrenomMail(input,divError,regex){
+// function nom et prenom mail message quand c'est vide
+function nomPrenomMail(input,divError,){
 
 if(input.value.length == 0){
   afficherMessage(divError);
   caseVide(divError);
   count++; 
-  }
+  }};
 
-else if (regex.test(input.value)==false){
-   caseErrorPrenomNom(divError);
+
+
+//verification regex nom/prenom/
+
+  function verifRegexNom(input,regex,divError){
+  if (regex.test(input.value)==false){
+        caseErrorPrenomNom(divError);
    count++
-   
-   }
-else {
-  count=0;
-  }
+   }};
 
-};
+  
+//verification regex mail 
+ function verifRegexMail (input,regex){
+  if (regex.test(input.value)==false){
+    afficherMessage(resultEmail);
+    resultEmail.innerHTML='veuillez saisir une adresse Email valide';
+    count++;
+ }};
+
+
 
 // date
 
@@ -253,32 +263,30 @@ function boutonCgv () {
   }
   };
 
-
 // fonction pour verifier que tout est ok avant envoie du formulaire
 function validation(){
-nomPrenomMail(inputFirst,resultFirst,regPrenomNom);
-nomPrenomMail(inputLast,resultLast,regPrenomNom);
-nomPrenomMail(inputEmail,resultEmail,regEmail);
-date();
-tournoi();
-ville();
-boutonCgv();
-}
-
-
-
+  nomPrenomMail(inputFirst,resultFirst);
+  nomPrenomMail(inputLast,resultLast);
+  nomPrenomMail(inputEmail,resultEmail);
+  
+  verifRegexNom(inputFirst,regPrenomNom,resultFirst);
+  verifRegexNom(inputLast,regPrenomNom, resultLast);
+  verifRegexMail (inputEmail,regEmail,resultEmail);
+  date();
+  tournoi();
+  ville();
+  boutonCgv();
+  };
+  
+  
 // ecoute du bouton submit et envoie notification 
 form.addEventListener("submit", e=> {
   e.preventDefault();
   validation();
-  
-
   if (count==0){
 modalbg.style.display = "none";
 notification();
 form.reset();}
-
-  
 });
 
 
@@ -294,7 +302,8 @@ btnNotification.addEventListener('click', function(){
   
 });
 
+
 croixNotification.addEventListener('click',function(){
   notificationClose.style.display='none';
-})
+});
 
